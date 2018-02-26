@@ -23,7 +23,7 @@ resultHeap = []
 # Set up command line arguments
 argParser = argparse.ArgumentParser()
 argParser.add_argument("filepath", type=str, help="Location of mbox file")
-argParser.add_argument("n", type=int, nargs="?", default=10, help="The amount of emails"
+argParser.add_argument("n", type=int, nargs="?", default=50, help="The amount of emails"
     "that need to be received from a sender for them to be display in results")
 
 # Retrieve command line arguments from parser

@@ -81,9 +81,8 @@ class MBoxReader():
             return
 
         with open(self.mboxFilePath, encoding="utf8") as mboxFile:
-            # Process each line in the mbox file. An mbox file can be large, but the
-            # "for x in container" pattern will allow us to iterate over the file
-            # without storing the entire file in memory.
+            # Process each line in the mbox file. An mbox file can be large, so we
+            # only store one line in memory at a time. 
             for line in mboxFile:
                 self.processLine(line)
             
@@ -98,7 +97,7 @@ class MBoxReader():
     """
     GUI Setup
     """
-    # Setup file browser
+    # Launch file browser
     def browseMboxPath(self):
         Tk().withdraw() 
         global mboxFilePath
@@ -110,14 +109,14 @@ class MBoxReader():
         root = Tk()
         root.title("GMail Clutter Finder")
             
-        #Setup frame
+        # Setup frame
         self.content = ttk.Frame(root)
         self.mainframe = ttk.Frame(root, padding="3 3 12 12")
         self.mainframe.columnconfigure(0, weight=1)
         self.mainframe.rowconfigure(0, weight=1)
 
         # Setup widgets
-        self.step1Label = ttk.Label(self.content, text="Step 1: Click here to download your GMail inbox (.mbox)", cursor="hand2", wraplength=350)
+        self.step1Label = ttk.Label(self.content, text="Step 1: Click here to download your GMail inbox (.mbox). Make sure only \"Mail\" is selected.", cursor="hand2", wraplength=350)
         self.step1Label.pack()
         self.step1Label.bind("<Button-1>", self.openBrowserToDownloadMbox)
 

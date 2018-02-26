@@ -9,7 +9,8 @@ Brian Lam
 """
 
 from collections import defaultdict
-import argparse
+from tkinter import *
+from tkinter import ttk
 import heapq
 
 # Defaultdict to store sender data and count of emails
@@ -20,16 +21,10 @@ senders = defaultdict(int)
 # greater than the cutoff will be inserted.
 resultHeap = []
 
-# Set up command line arguments
-argParser = argparse.ArgumentParser()
-argParser.add_argument("filepath", type=str, help="Location of mbox file")
-argParser.add_argument("n", type=int, nargs="?", default=50, help="The amount of emails"
-    "that need to be received from a sender for them to be display in results")
 
 # Retrieve command line arguments from parser
-args = argParser.parse_args()
-mboxFilePath = args.filepath
-resultCutoff = args.n
+mboxFilePath = ""
+resultCutoff = 50
 
 def processLine(line):
     if (line.startswith("From: ")):
@@ -58,14 +53,35 @@ def outputResults():
     # Pop results from maxheap, showing most popular sender first
     while len(resultHeap) > 0:
         count, sender = heapq._heappop_max(resultHeap)
-        print(sender + " - " + str(count))
+        # # print(sender + " - " + str(count))
 
-with open(mboxFilePath, encoding="utf8") as mboxFile:
-    # Process each line in the mbox file. An mbox file can be large, but the
-    # "for x in container" pattern will allow us to iterate over the file
-    # without storing the entire file in memory.
-    for line in mboxFile:
-        processLine(line)
+"""
+GUI Initialization 
+"""
+root = Tk()
+root.title("GMail Clutter Finder")
+
+content = ttk.Frame(root)
+mainframe = ttk.Frame(root, padding="3 3 12 12")
+mainframe.columnconfigure(0, weight=1)
+mainframe.rowconfigure(0, weight=1)
+
+directionsLabel = ttk.Label(content, text="Here are some directions. TODO")
+fileLabel = ttk.Label(content, text="mbox file path:")
+
+content.grid(column=0, row=0)
+mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+
+filePath = StringVar()
+root.mainloop()
+
+# # with open(mboxFilePath, encoding="utf8") as mboxFile:
+# #     # Process each line in the mbox file. An mbox file can be large, but the
+# #     # "for x in container" pattern will allow us to iterate over the file
+# #     # without storing the entire file in memory.
+# #     for line in mboxFile:
+# #         processLine(line)
     
-    processResults()
-    outputResults()
+# #     processResults()
+# #     outputResults()
+
